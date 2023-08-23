@@ -43,7 +43,7 @@ def register1(message):
 	general_file = open('general_data.txt', 'a+', encoding='utf-8')
 	ids_file = open('ids.txt', 'a+', encoding='utf-8')
 	general_file.write('\n' + str(profile_join) + '@' + photo.file_id + '@' + message.from_user.username)
-	ids_file.write('\n' + str(message.from_user.id))
+	ids_file.write('\n' + str(message.from_user.id) + '@' + message.from_user.username)
 	bot.send_message(message.chat.id, 'Теперь ты зарегистрирован! Запусти /show_profile, чтобы увидеть свой профиль!')
 
 @bot.message_handler(commands=['login'])
@@ -209,6 +209,23 @@ def special_moments1(message):
 				bot.send_photo(message.chat.id, photo_id, caption)
 
 @bot.message_handler(commands=['admin_spamm'])
+def admin_spamm(message):
+	if message.from_user.username == 'chuuuchin' or message.from_user.username == 'wisac' or message.from_user.username == 'rrrrrrega' or message.from_user.username == 'chuuuchin_2':
+		data = bot.send_message(message.chat.id, 'Введите сообщение, которое надо разослать всем пользователям бота.')
+		bot.register_next_step_handler(data, admin_spamm1)
+	else:
+		bot.send_message(message.chat.id, 'Ты не можешь использовать эту команду, т.к. ты не админ. Если ты админ, но команда не работает, сделай фидбэк и включи в него @chuuuchin. Таким образом, главный разработчик увидит твой вопрос с вероятностью 100%.')
+def admin_spamm1(message):
+	message_textt = message.text
+	ids_file = open('ids.txt', 'r', encoding='utf-8')
+	line = ids_file.read()
+	array = line.split('\n')
+	for i in array:
+		temp = i.split('@')
+		idd = int(temp[0])
+		username = temp[1]
+		bot.send_message(idd, message_textt)
+	bot.send_message(message.chat.id, 'Готово!')
 
 @bot.message_handler(commands=['faq'])
 def faq(message):
@@ -227,7 +244,7 @@ def feedback1(message):
 
 @bot.message_handler(commands=['answer'])
 def answer(message):
-	if message.from_user.username == 'chuuuchin' or message.from_user.username == 'wisac' or message.from_user.username == 'rrrrrrega':
+	if message.from_user.username == 'chuuuchin' or message.from_user.username == 'wisac' or message.from_user.username == 'rrrrrrega' or message.from_user.username == 'chuuuchin_2':
 		answer = bot.send_message(message.chat.id, 'В первой строчке введи id пользователя, во второй - ответ на вопрос.')
 		bot.register_next_step_handler(answer, answer1)
 	else:

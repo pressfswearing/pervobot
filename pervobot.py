@@ -45,7 +45,7 @@ def register1(message):
 	general_file = open('general_data.txt', 'a+', encoding='utf-8')
 	ids_file = open('ids.txt', 'a+', encoding='utf-8')
 	general_file.write('\n' + str(profile_join) + '@' + photo.file_id + '@' + message.from_user.username)
-	ids_file.write('\n' + str(message.from_user.id))
+	ids_file.write('\n' + str(message.from_user.id) + '@' + message.from_user.username)
 	bot.send_message(message.chat.id, 'Теперь ты зарегистрирован! Запусти /show_profile, чтобы увидеть свой профиль!')
 
 @bot.message_handler(commands=['login'])

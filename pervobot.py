@@ -25,7 +25,7 @@ def create_profile1(message):
 	bot.send_message(message.chat.id, 'Вот твоя анкета:')
 	bot.send_photo(message.chat.id, photo.file_id, message.caption)
 	bot.send_message(message.chat.id, 'Проверь, все ли данные ты правильно ввела и в правильном ли формате. Если что-то не так, запусти /create_profile заново.\n\
-	Если всё нормально, запусти /register.')
+Если всё нормально, запусти /register.')
 
 @bot.message_handler(commands=['register'])
 def register(message):
@@ -34,7 +34,6 @@ def register(message):
 def register1(message):
 	profile = str(message.caption)
 	photo = max(message.photo, key=lambda x: x.height)
-	print(profile)
 	profile_split = profile.split('\n')
 	name = profile_split[0]
 	sex = profile_split[1]
@@ -43,7 +42,6 @@ def register1(message):
 	status = profile_split[4]
 	bio = profile_split[5]
 	profile_join = '@'.join(profile_split)
-	print(profile_join)
 	general_file = open('general_data.txt', 'a+', encoding='utf-8')
 	ids_file = open('ids.txt', 'a+', encoding='utf-8')
 	general_file.write('\n' + str(profile_join) + '@' + photo.file_id + '@' + message.from_user.username)
@@ -111,7 +109,7 @@ def show_profile(message):
 	sex = profile_split[1]
 	age = profile_split[2]
 	direction = profile_split[3]
-	status = profile_split[4]
+	status = 'Статус: ' + profile_split[4]
 	bio = profile_split[5]
 	photo_id = profile_split[6]
 	caption = name + '\n' + sex + '\n' + age + '\n' + direction + '\n' + status + '\n' + bio + '\n' + '@' + username

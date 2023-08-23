@@ -16,6 +16,7 @@ def create_profile(message):
 Пол (М или Ж)\n\
 Возраст\n\
 Направление (одно)\n\
+Статус (в будущем его можно будет поменять)\n\
 Что-то о себе')
 	bot.send_photo(message.chat.id, directionss, 'Вот список направлений.')
 	bot.register_next_step_handler(data, create_profile1)
@@ -39,7 +40,8 @@ def register1(message):
 	sex = profile_split[1]
 	age = profile_split[2]
 	direction = profile_split[3]
-	bio = profile_split[4]
+	status = profile_split[4]
+	bio = profile_split[5]
 	profile_join = '@'.join(profile_split)
 	print(profile_join)
 	general_file = open('general_data.txt', 'a+', encoding='utf-8')
@@ -60,10 +62,11 @@ def login(message):
 			sex = profile_split[1]
 			age = profile_split[2]
 			direction = profile_split[3]
-			bio = profile_split[4]
-			photo_id = profile_split[5]
-			username = profile_split[6]
-			caption = name + '\n' + sex + '\n' + age + '\n' + direction + '\n' + bio + '\n' + '@' + username
+			status = 'Статус: ' + profile_split[4]
+			bio = profile_split[5]
+			photo_id = profile_split[6]
+			username = profile_split[7]
+			caption = name + '\n' + sex + '\n' + age + '\n' + direction + '\n' + status + '\n' + bio + '\n' + '@' + username
 			bot.send_message(message.chat.id, 'Готово, ты вошёл в бота! Вот твой профиль:')
 			bot.send_photo(message.chat.id, photo_id, caption)
 			break
@@ -86,10 +89,11 @@ def randomnewfriends(message):
 	sex = tempp_split[1]
 	age = tempp_split[2]
 	direction = tempp_split[3]
-	bio = tempp_split[4]
-	photo_id = tempp_split[5]
-	username = tempp_split[6]
-	caption = name + '\n' + sex + '\n' + age + '\n' + direction + '\n' + bio + '\n' + '@' + username
+	status = 'Статус: ' + tempp_split[4]
+	bio = tempp_split[5]
+	photo_id = tempp_split[6]
+	username = tempp_split[7]
+	caption = name + '\n' + sex + '\n' + age + '\n' + direction + '\n' + status + '\n' + bio + '\n' + '@' + username
 	bot.send_photo(message.chat.id, photo_id, caption)
 
 @bot.message_handler(commands=['show_profile'])
@@ -107,9 +111,10 @@ def show_profile(message):
 	sex = profile_split[1]
 	age = profile_split[2]
 	direction = profile_split[3]
-	bio = profile_split[4]
-	photo_id = profile_split[5]
-	caption = name + '\n' + sex + '\n' + age + '\n' + direction + '\n' + bio + '\n' + '@' + username
+	status = profile_split[4]
+	bio = profile_split[5]
+	photo_id = profile_split[6]
+	caption = name + '\n' + sex + '\n' + age + '\n' + direction + '\n' + status + '\n' + bio + '\n' + '@' + username
 	bot.send_photo(message.chat.id, photo_id, caption)
 
 @bot.message_handler(commands=['contacts'])
@@ -142,6 +147,31 @@ def links(message):
                     \nПравила чата - https://t.me/mypervie77_chat/79626/126737\
                     \nХэштеги Движения - \
                     \nВступить в Движение - https://будьвдвижении.рф/')
+
+@bot.message_handler(commands=['update_status'])
+def update_status(message):
+	general_file = open('general_data.txt', 'r', encoding='utf-8')
+	line = general_file.read()
+	array = line.split('\n')
+	for i in array:
+		if message.from_user.username in i:
+			temp = i.split('@')
+			status = temp[4]
+			new_status = bot.send_message(message.chat.id, 'Сейчас твой статус такой: ' + status + '. В следующем сообщении напиши, на что ты его хочешь поменять.')
+			bot.register_next_step_handler(new_status, update_status1)
+def update_status1(message):
+	new_status = message.text
+	general_file = open('general_data.txt', 'r', encoding='utf-8')
+	line = general_file.read()
+	array = line.split('\n')
+	for i in array:
+		if message.from_user.username in i:
+			temp = i.split('@')
+			old_status = temp[4]
+			general_file_write = open('general_data.txt', 'wt', encoding='utf-8')
+			i = i.replace(str(old_status), str(new_status))
+			general_file_write.write(i)
+			bot.send_message(message.chat.id, 'Готово! Теперь твой статус такой: ' + new_status)
 
 @bot.message_handler(commands=['faq'])
 def faq(message):

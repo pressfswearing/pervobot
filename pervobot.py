@@ -30,6 +30,9 @@ def create_profile(message):
 
 def create_profile1(message):
     photo = max(message.photo, key=lambda x: x.height)
+    if not photo:
+        bot.send_message(message.chat.id, 'Ты не прикреплил аватарку. Запусти /create_profile заново.')
+        break
     bot.send_message(message.chat.id, "Вот твоя анкета:")
     bot.send_photo(message.chat.id, photo.file_id, message.caption)
     bot.send_message(
@@ -51,6 +54,9 @@ def register(message):
 def register1(message):
     profile = str(message.caption)
     photo = max(message.photo, key=lambda x: x.height)
+    if not photo:
+        bot.send_message(message.chat.id, 'Ты не прикрепил аватарку. Запусти /create_profile заново.')
+        break
     profile_split = profile.split("\n")
     name = profile_split[0]
     sex = profile_split[1]

@@ -55,7 +55,6 @@ def register1(message):
     photo = max(message.photo, key=lambda x: x.height)
     if not photo:
         bot.send_message(message.chat.id, 'Ты не прикрепил аватарку. Запусти /create_profile заново.')
-        break
     else:
         profile_split = profile.split("\n")
         name = profile_split[0]

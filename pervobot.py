@@ -31,14 +31,14 @@ def create_profile1(message):
     photo = max(message.photo, key=lambda x: x.height)
     if not photo:
         bot.send_message(message.chat.id, 'Ты не прикреплил аватарку. Запусти /create_profile заново.')
-        break
-    bot.send_message(message.chat.id, "Вот твоя анкета:")
-    bot.send_photo(message.chat.id, photo.file_id, message.caption)
-    bot.send_message(
-        message.chat.id,
-        "Проверь, все ли данные ты правильно ввел и в правильном ли формате. Если что-то не так, запусти /create_profile заново.\n\
-Если всё нормально, запусти /register.",
-    )
+    else:
+        bot.send_message(message.chat.id, "Вот твоя анкета:")
+        bot.send_photo(message.chat.id, photo.file_id, message.caption)
+        bot.send_message(
+            message.chat.id,
+            "Проверь, все ли данные ты правильно ввел и в правильном ли формате. Если что-то не так, запусти /create_profile заново.\n\
+    Если всё нормально, запусти /register.",
+        )
 
 
 @bot.message_handler(commands=["register"])

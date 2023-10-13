@@ -57,29 +57,30 @@ def register1(message):
     if not photo:
         bot.send_message(message.chat.id, 'Ты не прикрепил аватарку. Запусти /create_profile заново.')
         break
-    profile_split = profile.split("\n")
-    name = profile_split[0]
-    sex = profile_split[1]
-    age = profile_split[2]
-    direction = profile_split[3]
-    status = profile_split[4]
-    bio = profile_split[5]
-    profile_join = "@".join(profile_split)
-    general_file = open("general_data.txt", "a+", encoding="utf-8")
-    ids_file = open("ids.txt", "a+", encoding="utf-8")
-    general_file.write(
-        "\n"
-        + str(profile_join)
-        + "@"
-        + photo.file_id
-        + "@"
-        + message.from_user.username
-    )
-    ids_file.write("\n" + str(message.from_user.id) + "@" + message.from_user.username)
-    bot.send_message(
-        message.chat.id,
-        "Теперь ты зарегистрирован! Запусти /show_profile, чтобы увидеть свой профиль!",
-    )
+    else:
+        profile_split = profile.split("\n")
+        name = profile_split[0]
+        sex = profile_split[1]
+        age = profile_split[2]
+        direction = profile_split[3]
+        status = profile_split[4]
+        bio = profile_split[5]
+        profile_join = "@".join(profile_split)
+        general_file = open("general_data.txt", "a+", encoding="utf-8")
+        ids_file = open("ids.txt", "a+", encoding="utf-8")
+        general_file.write(
+            "\n"
+            + str(profile_join)
+            + "@"
+            + photo.file_id
+            + "@"
+            + message.from_user.username
+        )
+        ids_file.write("\n" + str(message.from_user.id) + "@" + message.from_user.username)
+        bot.send_message(
+            message.chat.id,
+            "Теперь ты зарегистрирован! Запусти /show_profile, чтобы увидеть свой профиль!",
+        )
 
 
 @bot.message_handler(commands=["login"])

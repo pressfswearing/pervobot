@@ -1,6 +1,5 @@
 import telebot
 import random
-from background import keep_alive
 
 bot = telebot.TeleBot("6665386471:AAHumfgLJo1G5K3LXf4x38BRNM0prAzUB7U")
 
@@ -871,5 +870,4 @@ def change_profile_picture1(message):
     )
 
 
-keep_alive()
 bot.polling(none_stop=True, interval=0)
